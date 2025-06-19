@@ -1,0 +1,16 @@
+{
+  "name": "backend1",
+  "version": "1.0.0",
+  "description": "a video series for how to handle professional backend setup",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "backend",
+    "chai"
+  ],
+  "author": "ATUL TIWARI",
+  "license": "ISC"
+}
