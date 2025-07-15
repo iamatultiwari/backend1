@@ -1,0 +1,98 @@
+How to setup a professional backend project - 
+
+
+initialize node package manager with npm init
+then 
+
+git init
+git add . - for aading all the files.
+git commit -m - for commit
+git config --global user.email "atult2386@gmail.com"
+git commit -m "add initial files for backend"
+git branch -M main
+git remote add origin https://github.com/iamatultiwari/backend1.git
+git push -u origin main
+
+or 
+
+ {
+git init
+git remote add origin https://github.com/username/repo-name.git
+git add .
+git commit -m "Initial commit"
+git push -u origin main }
+
+
+nodemon - hai kiuchh nhi bas aapki file jaise save hoti haiu server ko restart kr deta hai
+
+dev dependency only development me use hoti hai production me nhi le jate
+
+
+must learn progress.exit in nodemon
+
+IN TERM OF CONFIG SETTINGS OR IN CASE OF MIDDLEWARES WE CAN USE APP.USE
+
+
+
+mongoose.aggreattion.something npm pakage for watchhistory this is important
+
+bcrypt and bcrypt.js optimized npm pakages for helps to hash your password
+
+for token jwt library - jsonwebtocken
+
+hook in mdb used for direct encryption cause without these hooks we can not encrypt directly also Hooks (also called middleware) are functions that run before or after certain actions in Mongoose like saving, updating, or deleting documents.
+ for ex - pre hook (method Hai )
+
+
+#in js arrow method there are no refrence for this fnn so we cant use this with the arrow fn and middleware k flag me next ka access hona to important hota hai 
+
+# jwt is the bearer token means jo usko bear krta hai usko ham shi man lete Hai   It’s a secure way to send data between a client and a server as a token works as just like a key
+
+we can inject a lot of methods in our schema 
+
+
+
+fs stands for File System, and it's a built-in module that allows you to interact with the file system on your computer — reading, writing, updating, deleting files and directories.
+
+
+in storing file or something pahle ham client se data or file lenge and then pahle localhotst par rakhenge then multer ke through cloudinary o pear store karayenge taki pahle hamare pas file aa jaye if its the case of reattempt or something 
+
+
+
+FS IN NODE JS -
+
+ It is a built-in module in Node.js that lets you work with files and folders on your computer. always handle errors (try/catch) or if (err) to avoid crashing our app.
+- with fs we can -
+
+ Read files (like .txt, .json, etc.)
+
+✍️ Write to files
+
+➕ Add content to existing files
+
+❌ Delete files
+
+📁 Create folders
+
+📂 Read files inside a folder
+
+
+
+
+for resister  user steps -
+
+
+ 1.get user data from frontend 
+2.validation - not empty 
+3.check if user already exist: from username or email
+4. check for images, check for avatar
+5.upload them into cloudinary,avatar
+6.create user object - create entry in db 
+7.remove the password and refress tocken field from response
+8. check for user creation
+9.return res
+
+
+
+
+#jwt,
