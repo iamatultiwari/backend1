@@ -79,7 +79,7 @@ FS IN NODE JS -
 
 
 
-for resister  user steps -
+for resister or sign-up  user steps -
 
 
  1.get user data from frontend 
