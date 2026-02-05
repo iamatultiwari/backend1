@@ -20,7 +20,7 @@ import userRouter from './routes/user.routes.js';
 // routes declaration
 app.use("/api/v1/users", userRouter);
 
-// ✅ Add this route to fix "Cannot GET /"
+
 app.get("/", (req, res) => {
   res.status(200).send("✅ Server is running and root route is working!");
 });
