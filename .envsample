@@ -1,0 +1,6 @@
+PORT=8000
+MONGODB_URL=mongodb+srv://Atultiwari:<your_password>@cluster0.6cz0b5i.mongodb.net
+CORS_ORIGIN=*
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
