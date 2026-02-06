@@ -19,10 +19,13 @@ import userRouter from './routes/user.routes.js';
 
 // routes declaration
 app.use("/api/v1/users", userRouter);
+//if the url get  /api/v1/users then it handles to the userRoter after
+//that if register -> registerUser
 
 
 app.get("/", (req, res) => {
-  res.status(200).send("✅ Server is running and root route is working!");
+  res.status(200).send("hello world!");
+  console.log("app is started")
 });
 
 export { app };
