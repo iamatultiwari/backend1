@@ -1,4 +1,4 @@
-//ham jo step folloe kr rhe uspe aisa hai ki server tk to file aa chuki hai 
+//ham jo step follow kr rhe uspe aisa hai ki server tk to file aa chuki hai 
 //ab yha se locallhost file path lena hai and upload kr dena hai
 // ur agr succesfully file upload ho chuki hai then hame  hamare server se file remove b hi to krni hai  
 
@@ -19,16 +19,16 @@ import fs from "fs"
     const uploadOncloudinary = async(localfilepath) => {
         try {
             if(!localfilepath) 
-                return null//upload the file on cloudinary
-              const response = await cloudinary.uploader.upload(localfilepath,{
-                    resource_type: "auto"
+                return null//if localfileapth not found
+              const response = await cloudinary.uploader.upload(localfilepath,{ //here in place of loalfilepath we canalso pass the link of object for specifix
+                    resource_type: "auto" //img,png ,jpg etc..
                 })
                 // file has been uploaded successfull
         console.log("file has been uploaded succesfully",response.url);
         return response;
             
         } catch (error) {
-            fs.unlinkSync(localpath)//remove the locally saved file as  the upload operation got failed
+            fs.unlinkSync(localpath)//remove the locally saved temparary file as  the upload operation got failed
             return null;
         }
     }
