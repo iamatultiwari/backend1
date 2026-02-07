@@ -1,9 +1,12 @@
 import { asyncHandler } from '../utils/asynchandler.js';
 import { ApiError } from '../utils/ApiError.js';
-import { Apiresponse } from '../utils/Apiresponse.js';
+import { ApiResponse } from '../utils/Apiresponse.js';
 import { User } from '../models/user.model.js';
 import { uploadOncloudinary } from '../utils/cloudinary.js';
 import jwt from 'jsonwebtoken'
+
+import dotenv from "dotenv";
+dotenv.config();
 
 
 // Utility: Generate Access and Refresh Tokens
@@ -29,15 +32,29 @@ const generateAccessAndRefreshToken = async (userId) => {
 // Controller:** Register a New User
 
 const registerUser = asyncHandler(async (req, res) => {
- // const { fullname, email, username, password } = req.body;
-   res.status(200).json({
-  message:"ok"
- })
+
+  // steps - get user deatil from frontend
+  //validation -not empty
+  // check if user already exists - username,password
+  //check for images,ckeck for avatar
+  //create user obj create entry in db
+  //remove password nd refreshtoken field from response
+  //check for user creation 
+  //return res
+
+
+ const { fullName
+, email, username, password } = req.body;
+ //console.log("fullName",fullname);
+//    res.status(200).json({
+//   message:"ok"
+//  })
 
   // Validate required fields
-  if ([fullname, email, username, password].some(field => !field?.trim())) {
-    throw new ApiError(400, "All fields are required");
-  }
+  if ([fullName, email, username, password].some(field => !field?.trim())) {
+  throw new ApiError(400, "All fields are required");
+}
+
 
   // Check for existing user
   const existedUser = await User.findOne({
@@ -49,7 +66,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Extract file paths
-  const avatarLocalPath = req.files?.avatar?.[0]?.path;
+  const avatarLocalPath = req.files?.avatar?.[0]?.path;//.files - from multer
   const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
 
   if (!avatarLocalPath) {
@@ -58,7 +75,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Upload to Cloudinary
   const avatar = await uploadOncloudinary(avatarLocalPath);
-  const coverImage = await uploadOncloudinary(coverImageLocalPath);
+  const coverImage = coverImageLocalPath
+  ? await uploadOncloudinary(coverImageLocalPath)
+  : null;
+
 
   if (!avatar) {
     throw new ApiError(400, "Avatar upload failed");
@@ -66,16 +86,18 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Create user
   const user = await User.create({
-    fullname,
+    fullName,
     avatar: avatar.url,
     coverImage: coverImage?.url || "",
     email,
     password,
-    username: username.toLowerCase()
+    username: username?.toLowerCase()
+
   });
 
-  // Fetch user without sensitive info
-  const createdUser = await User.findById(user._id).select("-password -refreshToken");
+  // Fetch user without sensitive info by mdb id as its default docs id 
+  const createdUser = await User.findById(user._id).select
+  ("-password -refreshToken");// ky ky nhi chahiye vo -
 
   if (!createdUser) {
     throw new ApiError(500, "Something went wrong while registering the user");
@@ -83,6 +105,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   return res.status(201).json(
     new ApiResponse(201, createdUser, "User registered successfully")
+    //send new object  ApiResponse these fields -201, createdUser, 
   );
 });
 

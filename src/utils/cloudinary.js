@@ -4,36 +4,42 @@
 
 
 //import {v2} from "cloudinary"
-import {v2 as cloudinary } from "cloudinary"
-import fs from "fs"
+import { v2 as cloudinary } from "cloudinary";
+import fs from "fs";
 
 
-    // Configuration
-    cloudinary.config({ 
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
-        api_key: process.env.CLOUDINARY_API_KEY, 
-        api_secret: process.env.CLOUDINARY_API_SECRET 
-        // Click 'View API Keys' above to copy your API secret
+import dotenv from "dotenv";
+dotenv.config();
+
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+const uploadOncloudinary = async (localfilepath) => {
+  try {
+    if (!localfilepath) return null;
+
+    const response = await cloudinary.uploader.upload(localfilepath, {
+      resource_type: "auto",
     });
-    
-    const uploadOncloudinary = async(localfilepath) => {
-        try {
-            if(!localfilepath) 
-                return null//if localfileapth not found
-              const response = await cloudinary.uploader.upload(localfilepath,{ //here in place of loalfilepath we canalso pass the link of object for specifix
-                    resource_type: "auto" //img,png ,jpg etc..
-                })
-                // file has been uploaded successfull
-        console.log("file has been uploaded succesfully",response.url);
-        return response;
-            
-        } catch (error) {
-            fs.unlinkSync(localpath)//remove the locally saved temparary file as  the upload operation got failed
-            return null;
-        }
-    }
 
-    export{uploadOncloudinary}
+    console.log("File uploaded successfully:", response.url);
+    return response;
+
+  } catch (error) {
+      console.log("Cloudinary Upload Error:", error);
+    if (fs.existsSync(localfilepath)) {
+      fs.unlinkSync(localfilepath);
+    }
+    return null;
+  }
+};
+
+export { uploadOncloudinary };
+
 
 //   Upload an image - as a temprary for understandong
 //      const uploadResult = await cloudinary.v2.uploader

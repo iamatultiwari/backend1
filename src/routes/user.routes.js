@@ -8,16 +8,16 @@ const router = Router();
 
 // Route: POST /api/users/register
 router.route("/register").post(
-  // upload.fields([
-  //   {
-  //     name: "avatar",
-  //     maxCount: 1
-  //   },
-  //   {
-  //     name: "coverImage",
-  //     maxCount: 1
-  //   }
-  // ]),
+  upload.fields([ //middleware(uploads)
+    {
+      name: "avatar",
+      maxCount: 1
+    },
+    {
+      name: "coverImage",
+      maxCount: 1
+    }
+  ]),
   registerUser
 );
 
