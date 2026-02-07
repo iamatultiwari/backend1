@@ -29,10 +29,13 @@ const generateAccessAndRefreshToken = async (userId) => {
 // Controller:** Register a New User
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { fullName, email, username, password } = req.body;
+ // const { fullname, email, username, password } = req.body;
+   res.status(200).json({
+  message:"ok"
+ })
 
   // Validate required fields
-  if ([fullName, email, username, password].some(field => !field?.trim())) {
+  if ([fullname, email, username, password].some(field => !field?.trim())) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -63,7 +66,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // Create user
   const user = await User.create({
-    fullName,
+    fullname,
     avatar: avatar.url,
     coverImage: coverImage?.url || "",
     email,
@@ -91,7 +94,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Validate input
   if ((!email && !username) || !password) {
-    throw new ApiError(400, "Username or email and password are required");
+    throw new ApiError(400, "username or email and password are required");
   }
 
   // Find user by username or email
@@ -164,7 +167,7 @@ const refreshAccessToken = asyncHandler(async(req,res) =>
   {
   const incomingRefreshToken =  req.cookies.refreshToken || req.body.refreshToken 
 
-  if (incomingRefreshToken) {
+  if (!incomingRefreshToken) {
     throw new ApiError(401,"unauthorized request ")
     
   }
@@ -176,27 +179,31 @@ const refreshAccessToken = asyncHandler(async(req,res) =>
  
     const user = await User.findById(decodedToken?._id)
  
-    if(!User){
+    if(!user){
      throw new ApiError(401,"INVALID REFRESH TOKEN ")
     }
      if (incomingRefreshToken !== user?.refreshToken) {
        throw new ApiError(401,"expired refresh token.")
        
      }
- refershToken
+ //refershToken
      const options ={
        httpOnly:true,
        secure:true
      }
-     const {accessToken,newrefershToken} =  await generateAccessAndRefreshToken(user._id)
+     const {accessToken,newRefreshToken
+} =  await generateAccessAndRefreshToken(user._id)
  
      return res
-     .status("accessToken",accessToken,options)
-     .status("refreshToken",newrefershToken,options)
+    //  .status("accessToken",accessToken,options)
+    //  .status("refreshToken",newRefreshToken,options)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", newRefreshToken, options)
      .json(
        new Apiresponse(
          200,
-         {accessToken,refreshAccessToken:newrefershToken},
+         {accessToken,refreshAccessToken:newRefreshToken
+},
          "access token refreshed succesfully"
        )
      )
