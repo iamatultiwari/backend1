@@ -66,8 +66,9 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   // Extract file paths
-  const avatarLocalPath = req.files?.avatar?.[0]?.path;//.files - from multer
+  const avatarLocalPath = req.files?.avatar?.[0]?.path;//.files - from multer(public/temp files)
  // const coverImageLocalPath = req.files?.coverImage?.[0]?.path;
+
  let coverImageLocalPath;
  if(req.files && Array.isArray(req.files?.coverImage)
    && req.files.coverImage.length > 0){
@@ -92,7 +93,7 @@ const registerUser = asyncHandler(async (req, res) => {
     console.log("Avatar URL:", avatar.url);
     console.log("Cover URL:", coverImage.url);
 
-    
+
   if (!avatar) {
     throw new ApiError(400, "Avatar upload failed");
   }
