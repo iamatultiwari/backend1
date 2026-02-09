@@ -19,12 +19,12 @@ const generateAccessAndRefreshToken = async (userId) => {
     const refreshToken = user.generateRefreshToken();
 
     user.refreshToken = refreshToken;
-    await user.save({ validateBeforeSave: false });
+    await user.save({ validateBeforeSave: false });//just save dont check validation 
 
     return { accessToken, refreshToken };
 
   } catch (error) {
-    throw new ApiError(500, "Error generating access and refresh token");
+    throw new ApiError(500, "Something went wrong while generating access and refresh token");
   }
 };
 
@@ -127,6 +127,13 @@ const registerUser = asyncHandler(async (req, res) => {
 //**  Controller: Login User
 
 const loginUser = asyncHandler(async (req, res) => {
+  //req.body - data
+  //username or email
+  //find the user
+  //password check if login 
+  //generate access and refresh token
+  //send cookie
+
   const { email, username, password } = req.body;
 
   // Validate input
@@ -155,7 +162,8 @@ const loginUser = asyncHandler(async (req, res) => {
   // Fetch user without sensitive fields
   const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
-  // Cookie options
+  // Cookie options must imp for 
+  //accessing by server only
   const options = {
     httpOnly: true,
     secure: true,
@@ -167,19 +175,19 @@ const loginUser = asyncHandler(async (req, res) => {
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(
-      new ApiResponse(200, { user: loggedInUser, accessToken }, "Login successful")
+      new ApiResponse(200, { user: loggedInUser, accessToken,refreshToken}, "Login successful")
     );
 });
 
 
-// ** Controller: Logout User
+//  Controller: Logout User
 
 const LogoutUser = asyncHandler(async (req, res) => {
   // Remove refreshToken from DB
   await User.findByIdAndUpdate(
     req.user._id,
     {
-      $set: {
+      $set: {//mdb operator 
         refreshToken: undefined
       }
     },
@@ -199,7 +207,7 @@ const LogoutUser = asyncHandler(async (req, res) => {
     .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged out"));
 })
-// **  controller - for accessofrefreshtoken
+//   controller - for accessofrefreshtoken
 const refreshAccessToken = asyncHandler(async(req,res) =>
   {
   const incomingRefreshToken =  req.cookies.refreshToken || req.body.refreshToken 
