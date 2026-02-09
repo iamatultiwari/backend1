@@ -45,6 +45,9 @@ const registerUser = asyncHandler(async (req, res) => {
 
  const { fullName
 , email, username, password } = req.body;
+
+// const { fullName, email, username, password } = req.body || {};
+
  //console.log("fullName",fullname);
 //    res.status(200).json({
 //   message:"ok"
